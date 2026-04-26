@@ -18,15 +18,17 @@ import { IoIosAddCircle} from "react-icons/io";
 import { GoVideo} from "react-icons/go";
 import { SiYoutubeshorts} from "react-icons/si";
 import { MdOutlineSubscriptions} from "react-icons/md";
+import { Outlet, useNavigate } from "react-router-dom";
 
 function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [selectedItem, setSelectedItem] = useState("Home")
   const [active, setActive] = useState("Home")
+  const navigate = useNavigate()
 
   const categories = [
-    "Music", "Gaming", ""
-  ]
+    "Music", "Gaming", "Movies", "TV Shows", "News", "Trending", "Entertainment", "Education", "Science & Tech", "Travel", "Fashion", "Cooking", "Sports", "Pets", "Art", "Comedy", "Vlogs"
+  ];
   return (
     <div className="bg-[#0f0f0f] text-white min-h-screen relative">
       {/* navbar */}
@@ -72,9 +74,9 @@ function Home() {
       <aside className={`bg-[#0f0f0f] border-r border-gray-800 transition-all duration-300 fixed top-15 bottom-0 z-40 ${sidebarOpen ? "w-60" : "w-20"} hidden md:flex flex-col overflow-y-auto`}>
 
         <nav className="space-y-1 mt-3">
-          <SidebarItem icon={<FaHome/>} text={"Home"} open={sidebarOpen} selected={selectedItem ==="Home"} onClick={()=>setSelectedItem("Home")}/>
+          <SidebarItem icon={<FaHome/>} text={"Home"} open={sidebarOpen} selected={selectedItem ==="Home"} onClick={()=>{setSelectedItem("Home"); navigate("/")}}/>
 
-          <SidebarItem icon={<SiYoutubeshorts/>} text={"Shorts"} open={sidebarOpen} selected={selectedItem ==="Shorts"} onClick={()=>setSelectedItem("Shorts")}/>
+          <SidebarItem icon={<SiYoutubeshorts/>} text={"Shorts"} open={sidebarOpen} selected={selectedItem ==="Shorts"} onClick={()=>{setSelectedItem("Shorts"); navigate("/shorts")}}/>
 
           <SidebarItem icon={<MdOutlineSubscriptions/>} text={"Subscriptions"} open={sidebarOpen} selected={selectedItem ==="Subscriptions"} onClick={()=>setSelectedItem("Subscriptions")}/>
         </nav>
@@ -101,6 +103,20 @@ function Home() {
       {/* Main Area */}
 
       <main className={`overflow-y-auto p-4 flex flex-col pb-16 transition-all duration-300 ${sidebarOpen ? "md:ml-60" : "md:ml-20"}`}>
+
+        {location.pathname === "/" && (
+          <>
+          <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide pt-2 mt-15">
+          {categories.map((cat, idx)=>(
+            <button key={idx} className="whitespace-nowrap bg-[#272727] px-4 py-1 rounded-lg text-sm hover:bg-gray-700 ">
+                {cat}
+            </button>
+          ))}
+        </div></>)}
+
+        <div className="mt-2">
+          <Outlet/>
+        </div>
 
       </main>
 
